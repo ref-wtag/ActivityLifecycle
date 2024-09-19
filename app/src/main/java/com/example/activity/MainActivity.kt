@@ -4,8 +4,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
+import androidx.annotation.ReturnThis
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var receiver: SecondActivity
@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         IntentFilter(IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
            registerReceiver(receiver, it)
         })
+
+        startService(Intent(this, ThirdActivity::class.java))
     }
 
     override fun onStop() {
