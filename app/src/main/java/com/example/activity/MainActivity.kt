@@ -5,19 +5,42 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 
-class MainActivity : AppCompatActivity() {
-    var cnt = 1
-
-    //called when the activity is first created
+class MainActivity : SecondActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d ("log1", "${cnt++} executing onCreate")
-        buttonClicked()
+
+        showToast()
+        getId()
+
+        goToSecondActivity()
+        //showSecondActivityUI()
     }
 
-    fun buttonClicked() {
+    override fun getId(): Int {
+        Toast.makeText(this, "Executing get id function", Toast.LENGTH_SHORT).show()
+        return 5
+    }
+
+    override fun setupUI() {
+        super.setupUI()
+        val textField = findViewById<TextView>(R.id.textView2)
+        textField.text = "Showing 2nd Activity From 1st Activity"
+    }
+
+    fun showToast() {
+        val button = findViewById<Button>(R.id.button3)
+        button.setOnClickListener {
+            Toast.makeText(this, "This is First Activity", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    //this will crash the app as second activity is a abstract activity
+    //abstract activities can't be instantiated, they are only intended to be subclassed
+    fun goToSecondActivity() {
         val button = findViewById<Button>(R.id.button1)
         button.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
@@ -25,41 +48,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // called when activity is becoming visible to user
-    override fun onStart() {
-        super.onStart()
-        Log.d ("log1","${cnt++} executing onStart")
+    //this will also crash the app
+    fun showSecondActivityUI() {
+        setupUI()
     }
-
-    //called when activity will start interacting with user
-    override fun onResume() {
-        super.onResume()
-        Log.d("log1","${cnt++} executing onResume")
-    }
-
-    //called when activity is not visible to user
-    override fun onPause() {
-        super.onPause()
-        Log.d("log1", "${cnt++} executing onPause")
-    }
-
-    //called when current activity is no longer visible to user & new activity become visible to user
-    override fun onStop() {
-        super.onStop()
-        Log.d("log1", "${cnt++} executing onStop")
-    }
-
-    //called after activity is stopped, prior to start
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("log1", "${cnt++} executing onRestart")
-    }
-
-    //called before the activity is destroyed
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("log1", "${cnt++} executing onDestroy")
-    }
-
-
 }
