@@ -1,29 +1,22 @@
 package com.example.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 
-class SecondActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_second)
-        Log.d("log1", "on second Activity")
-        goToFirstActivity()
-    }
+class SecondActivity : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+      val isAeroplaneMood = intent?.getBooleanExtra("state", false) ?: true
 
-    fun goToFirstActivity() {
-        val button = findViewById<Button>(R.id.button)
-        button.setOnClickListener {
-            //this will close the current activity and go back to the previous activity in the stack
-            finish()
+        if (isAeroplaneMood) {
+            Toast.makeText(context, "Airplane Mode Enabled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Airplane Mode Disabled", Toast.LENGTH_LONG).show()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("log1", "Back from second Activity")
     }
 }
